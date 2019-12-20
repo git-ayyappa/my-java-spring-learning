@@ -1,0 +1,85 @@
+package com.ayyappa.demo.mailer;
+
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+
+@Service
+public class Mailer{
+	@Autowired
+	private Configuration freeMarkerConfig;
+	
+	//Message related properties
+	private StringBuffer mailsList;
+	
+	public StringBuffer getMailsList() {
+		return mailsList;
+	}
+
+	public void setMailsList(StringBuffer mailsList) {
+		this.mailsList = mailsList;
+	}
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	public void run(String args,String question) throws MessagingException, IOException, TemplateException {
+		System.out.println("Sending Mail.....");
+		sendMailTemplate(args,question);
+		System.out.println("Done");
+	}
+	private void sendMail(String addr,String question) {
+		SimpleMailMessage message=new SimpleMailMessage();
+		message.setTo(addr);
+		message.setSubject("Scheduled Message.....");
+		message.setText(question+"\nregards ayyappa....");
+		
+		javaMailSender.send(message);
+		
+		
+	}
+	@SuppressWarnings("unchecked")
+	private void sendMailTemplate(String addr,String question)throws MessagingException,IOException,TemplateException{
+		Map model=new HashMap();
+		model.put("mail", addr);
+		model.put("message", question);
+		
+		
+		
+		
+		MimeMessage message=javaMailSender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(message,
+				MimeMessageHelper.MULTIPART_MODE_RELATED,
+				StandardCharsets.UTF_8.name());
+		helper.addAttachment("logo.png",new ClassPathResource("logo.png"));
+		helper.addAttachment("ln.png", new ClassPathResource("facebook@2x.png"));
+		helper.addAttachment("fb.png", new ClassPathResource("linkedin@2x.png"));
+		
+		Template t=freeMarkerConfig.getTemplate("mail.html");
+		String html=FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+		
+		helper.setTo(addr);
+		helper.setText(html, true);
+		helper.setSubject("Untill Hands On keyboard");
+		
+		javaMailSender.send(message);
+		
+	}
+}

@@ -1,0 +1,68 @@
+package com.ayyappa.demo.dao;
+
+
+import java.util.List;
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ayyappa.demo.entity.BankAccount;
+import com.ayyappa.demo.exception.BankTransactionException;
+import com.ayyappa.demo.model.BankAccountInfo;
+
+@Repository
+@Transactional
+public class BankAccountDao {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public BankAccountDao() {
+		
+	}
+	
+	public BankAccount findByID(Long id)
+	{
+		Session session=this.sessionFactory.getCurrentSession();
+		return session.get(BankAccount.class,id);
+	}
+	
+	public List<BankAccountInfo> listBankAccountInfo(){
+		String sql="Select new "+BankAccountInfo.class.getName()//
+				+"(e.id,e.fullName,e.balance)"//
+				+" from "+BankAccount.class.getName()+" e ";
+		System.out.println(sql);
+		Session session=this.sessionFactory.getCurrentSession();
+		Query<BankAccountInfo> query=session.createQuery(sql, BankAccountInfo.class);
+		System.out.println(query.getResultList());
+		return query.getResultList();
+		
+	}
+	
+	@Transactional(propagation=Propagation.MANDATORY)
+	public void addAmount(Long id, double amount)throws BankTransactionException{
+		BankAccount account=this.findByID(id);
+		if(account==null) {
+			throw new BankTransactionException("Account Not Found"+id);
+		}
+		double newBalance=account.getBalance()+amount;
+		if(account.getBalance()+amount<0)
+		{
+			throw new BankTransactionException("The Money in the account '"+id+"'is not enough ("+account.getBalance()+")");
+		}
+		account.setBalance(newBalance);
+		
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW,rollbackFor=BankTransactionException.class)
+	public void sendMoney(Long fromAccountId, Long toAccountId, double amount)throws BankTransactionException{
+		addAmount(toAccountId,amount);
+		addAmount(fromAccountId,-amount);
+	}
+}

@@ -1,0 +1,6 @@
+package com.ayyappa.springDemo.mvc;
+
+@Controller
+public class Controller {
+
+}

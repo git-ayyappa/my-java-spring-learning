@@ -1,0 +1,39 @@
+package com.ayyappa.demo.mailer;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+@Service
+public class Mailer{
+	private StringBuffer mailsList;
+	
+	public StringBuffer getMailsList() {
+		return mailsList;
+	}
+
+	public void setMailsList(StringBuffer mailsList) {
+		this.mailsList = mailsList;
+	}
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	public void run(String... args) {
+		System.out.println("Sending Mail.....");
+		sendMail();
+		System.out.println("Done");
+	}
+
+	private void sendMail() {
+		SimpleMailMessage message=new SimpleMailMessage();
+		message.setTo(mailsList.toString());
+		message.setSubject("Testing from spring boot.....");
+		message.setText("Connecting POSTGRE SQL DATABASE\nHello proton mail world\nregards ayyappa....");
+		
+		javaMailSender.send(message);
+	}
+}

@@ -1,0 +1,12 @@
+package com.ayyappa.demo.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.ayyappa.demo.mailentity.MailEntity;
+
+public interface JpaMainRepository extends JpaRepository<MailEntity,Integer> {
+		public long count();
+}

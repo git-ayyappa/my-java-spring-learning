@@ -1,0 +1,28 @@
+package com.ayyappa.demo.model;
+
+public class MailModel {
+	private String mail;
+	
+	public MailModel() {
+		super();
+	}
+
+	public MailModel(String mail) {
+		super();
+		this.mail = mail;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	@Override
+	public String toString() {
+		return "MailModel [mail=" + mail + "]";
+	}
+	
+}

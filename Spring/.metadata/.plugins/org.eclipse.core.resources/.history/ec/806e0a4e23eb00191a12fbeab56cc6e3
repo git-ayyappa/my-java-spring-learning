@@ -1,0 +1,5 @@
+package com.ayyappa.springDemo.mvc;
+
+public class HelloWorldController {
+
+}

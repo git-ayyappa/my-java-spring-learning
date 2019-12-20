@@ -1,0 +1,114 @@
+package com.ayyappa.springDemo.mvc;
+
+import java.util.LinkedHashMap;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+public class Student {
+	
+	private String firstName;
+	
+	@NotBlank(message="is Required")
+	@Size(min=2,message="more than 1 character required")
+	private String lastName;
+	
+	@Min(value=10,message="age must be greater than 10")
+	@Max(value=30,message="Age must be less than 30")
+	private int age;
+	
+	private String country;
+	
+	private LinkedHashMap<String, String> countryCode;
+	
+	private String favouriteLanguage;
+	
+	private String operatingSystem;
+	
+	@Pattern(regexp="^[0-9]{6}",message="only 6 digits allowed")
+	private String postalCode;
+
+	
+	
+	public Student(String firstName, String lastName, int age, String country,
+			LinkedHashMap<String, String> countryCode, String favouriteLanguage, String operatingSystem,
+			String postalCode) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.country = country;
+		this.countryCode = countryCode;
+		this.favouriteLanguage = favouriteLanguage;
+		this.operatingSystem = operatingSystem;
+		this.postalCode = postalCode;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public LinkedHashMap<String, String> getCountryCode() {
+		return countryCode;
+	}
+	public void setCountryCode(LinkedHashMap<String, String> countryCode) {
+		this.countryCode = countryCode;
+	}
+	public String getFavouriteLanguage() {
+		return favouriteLanguage;
+	}
+	public void setFavouriteLanguage(String favouriteLanguage) {
+		this.favouriteLanguage = favouriteLanguage;
+	}
+	public String getOperatingSystem() {
+		return operatingSystem;
+	}
+	public void setOperatingSystem(String operatingSystem) {
+		this.operatingSystem = operatingSystem;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	@Override
+	public String toString() {
+		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", country=" + country
+				+ ", countryCode=" + countryCode + ", favouriteLanguage=" + favouriteLanguage + ", operatingSystem="
+				+ operatingSystem + ", postalCode=" + postalCode + "]";
+	}
+	public Student() {
+		super();
+		countryCode=new LinkedHashMap<>();
+		countryCode.put("BR","Brazil");
+		countryCode.put("MY","Malaysia");
+		countryCode.put("WL","Wales");
+		countryCode.put("IN","India");
+		countryCode.put("US","America");
+	}
+	
+}

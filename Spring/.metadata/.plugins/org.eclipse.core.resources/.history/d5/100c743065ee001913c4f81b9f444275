@@ -1,0 +1,45 @@
+package com.ayyappa.demo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ayyappa.demo.dao.MailRepository;
+import com.ayyappa.demo.mailer.Mailer;
+import com.ayyappa.demo.model.MailEntityModel;
+
+@Service
+public class MailService {
+	StringBuffer mailsList=new StringBuffer("");
+	boolean var=false;
+	@Autowired
+	private Mailer mailer;
+	
+	@Autowired
+	private MailRepository mailRepository;
+	public void run(String args)
+	{
+		mailer.run(args);
+	}
+	public void running(String string) {
+	
+		List<MailEntityModel> list = mailRepository.getMails();
+		System.out.println(list);
+		list.forEach((temp)->{
+			if(var) {
+				mailsList.append(",");
+			}else {
+				var=true;
+			}
+			mailsList.append("\"");
+			mailsList.append(temp.getMail());
+			mailsList.append("\"");
+		});
+		//System.out.println(mailsList);
+		//mailer.setMailsList(mailsList);
+		//mailer.run(string);
+		
+	}
+
+}

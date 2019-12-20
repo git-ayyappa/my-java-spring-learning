@@ -1,0 +1,27 @@
+package com.ayyappa.demo.dao;
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ayyappa.demo.entity.BankAccount;
+
+@Repository
+@Transactional
+public class BankAccountDao {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public BankAccountDao() {
+		
+	}
+	public BankAccount findByID(Long id)
+	{
+		Session session=this.sessionFactory.getCurrentSession();
+		return session.get(BankAccount.class,id);
+	}
+}

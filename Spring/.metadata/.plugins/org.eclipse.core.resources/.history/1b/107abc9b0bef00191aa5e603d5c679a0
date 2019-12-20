@@ -1,0 +1,17 @@
+package com.ayyappa.demo.service;
+
+@Service
+public class MailService {
+	@Autowired
+	private MailRepository mailRepository;
+	
+	public void run(String args)
+	{
+		mailRepository.run(args);
+	}
+	public void newMail(String mail) {
+		//code hera
+		
+	}
+
+}

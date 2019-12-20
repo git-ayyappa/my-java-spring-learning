@@ -1,0 +1,20 @@
+package com.ayyappa.demo.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ayyappa.demo.mailer.Mailer;
+
+@RestController
+@RequestMapping(value="/mailer")
+public class MainController {
+	
+	Mailer mailer;
+	
+	@RequestMapping("value=/send")
+	public void send()
+	{
+		System.out.println("in controller");
+		mailer.run(" ");
+	}
+}

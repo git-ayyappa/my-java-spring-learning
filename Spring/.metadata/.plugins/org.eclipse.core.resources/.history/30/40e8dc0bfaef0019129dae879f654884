@@ -1,0 +1,55 @@
+package com.ayyappa.demo.questionentity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="dailyblinkzmailz")
+public class QuestionEntity {
+	
+		@Id
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
+		@Column(name="qid")
+		@OneToOne(mappedBy="MailEntity")
+		private long qid;
+		
+		@Column(name="question")
+		private String question;
+		
+		public QuestionEntity() {
+			
+		}
+
+		public QuestionEntity(long qid, String question) {
+			super();
+			this.qid = qid;
+			this.question = question;
+		}
+
+		public long getQid() {
+			return qid;
+		}
+
+		public void setQid(long qid) {
+			this.qid = qid;
+		}
+
+		public String getQuestion() {
+			return question;
+		}
+
+		public void setQuestion(String question) {
+			this.question = question;
+		}
+
+		@Override
+		public String toString() {
+			return "QuestionEntity [qid=" + qid + ", question=" + question + "]";
+		}
+		
+}

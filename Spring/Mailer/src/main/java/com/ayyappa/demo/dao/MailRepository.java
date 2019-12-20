@@ -1,0 +1,99 @@
+package com.ayyappa.demo.dao;
+
+import java.io.IOException;
+import java.sql.Statement;
+import java.util.List;
+
+import javax.mail.MessagingException;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ayyappa.demo.mailentity.MailEntity;
+import com.ayyappa.demo.mailer.Mailer;
+import com.ayyappa.demo.model.MailModel;
+import com.ayyappa.demo.model.QuestionModel;
+import com.ayyappa.demo.questionentity.QuestionEntity;
+
+import freemarker.template.TemplateException;
+
+@Repository
+@Transactional
+public class MailRepository {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private Mailer mailer;
+
+	public MailRepository() {
+		
+	}
+	
+	public List<MailModel> getMails()
+	{
+		System.out.println("in getMails() function");
+		//String sql="Select new "+BankAccountInfo.class.getName()+"(e.id,e.fullName,e.balance)"+" from "+BankAccount.class.getName()+" e ";
+		//Select new com.ayyappa.demo.model.BankAccountInfo(e.id,e.fullName,e.balance) from com.ayyappa.demo.entity.BankAccount e 
+		//String sql="select new "+MailEntityModel.class.getName()+"(e.mail)"+" from "+MailEntity.class.getName()+" e ";
+		String sql="select new com.ayyappa.demo.model.MailModel(m.mail,m.question_id,m.id) from com.ayyappa.demo.mailentity.MailEntity m";
+		System.out.println(sql);
+		Session session=this.sessionFactory.getCurrentSession();
+		Query<MailModel> query=session.createQuery(sql, MailModel.class);
+		System.out.println(query.getResultList());
+		return query.getResultList();
+	}
+	public List<QuestionModel> getQuestion(int q)
+	{
+		String sql="select new com.ayyappa.demo.model.QuestionModel(q.qid,q.question) from com.ayyappa.demo.questionentity.QuestionEntity q where q.id="+q;
+		Session session=this.sessionFactory.getCurrentSession();
+		Query<QuestionModel> query=session.createQuery(sql, QuestionModel.class);
+		return query.getResultList();
+	}
+	public void saveMail(String mail, int value) {
+		System.out.println("int save mails function.........");
+		Session session=this.sessionFactory.getCurrentSession();
+		MailEntity mailEntity = new MailEntity(Statement.RETURN_GENERATED_KEYS,mail,value);
+		session.save(mailEntity);
+		System.out.println("save object");
+	}
+	public void updateMail(String mail,long id,int qid) {
+		String sql="update dailyblinkz set question_id=? where id=? ";
+		Session session=this.sessionFactory.getCurrentSession();
+		@SuppressWarnings("rawtypes")
+		Query query=session.createSQLQuery(sql);
+		query.setParameter(1, qid);
+		query.setParameter(2,id);
+		int res=query.executeUpdate();
+		
+		
+	}
+	public void run(String args) {
+		sendMails();
+	}
+	public void sendMails() {
+		List<MailModel> list=getMails();
+		list.forEach((temp)->{
+			System.out.println(temp.getMail());
+			List<QuestionModel> question=getQuestion(temp.getQuestion_id());
+			QuestionModel temp1=question.get(0);
+			try {
+				mailer.run(temp.getMail(),temp1.getQuestion());
+			} catch (MessagingException | IOException | TemplateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			updateMail(temp.getMail(),temp.getId(),temp.getQuestion_id()+1);
+		});
+		
+	}
+
+	public void newMail(String mail) {
+		saveMail(mail,1);
+	}
+}

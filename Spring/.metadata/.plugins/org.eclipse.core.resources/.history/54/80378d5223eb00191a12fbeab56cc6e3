@@ -1,0 +1,16 @@
+package com.ayyappa.springDemo.mvc;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloWorldController {
+
+	@RequestMapping(value="/hello-world")
+	public ModelAndView helloWorld()
+	{
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("hello-world");
+		return mv;
+	}
+}

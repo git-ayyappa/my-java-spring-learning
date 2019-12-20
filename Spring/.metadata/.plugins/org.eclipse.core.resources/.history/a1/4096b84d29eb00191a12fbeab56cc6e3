@@ -1,0 +1,13 @@
+package com.ayyappa.springDemo.mvc;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class FormValidation {
+	@RequestMapping(value="/")
+	public ModelAndView home()
+	{
+		ModelAndView mv=new ModelAndView();
+	}
+	@RequestMapping(value="/student")
+}

@@ -1,0 +1,5 @@
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=kayyapparkv@gmail.com
+spring.mail.password=9848723169

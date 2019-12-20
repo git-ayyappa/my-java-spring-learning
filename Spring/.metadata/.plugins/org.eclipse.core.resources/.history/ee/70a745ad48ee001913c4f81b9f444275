@@ -1,0 +1,12 @@
+package com.ayyappa.demo.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class MailService {
+
+	public void run(String string) {
+		
+	}
+
+}

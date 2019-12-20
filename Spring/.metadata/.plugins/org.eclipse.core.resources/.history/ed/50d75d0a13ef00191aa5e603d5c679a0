@@ -1,0 +1,70 @@
+package com.ayyappa.demo.dao;
+
+import java.sql.Statement;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ayyappa.demo.mailentity.MailEntity;
+import com.ayyappa.demo.mailer.Mailer;
+import com.ayyappa.demo.model.MailEntityModel;
+import com.ayyappa.demo.model.MailModel;
+
+@Repository
+@Transactional
+public class MailRepository {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private Mailer mailer;
+
+	public MailRepository() {
+		
+	}
+	
+	public List<MailModel> getMails()
+	{
+		System.out.println("in getMails() function");
+		//String sql="Select new "+BankAccountInfo.class.getName()+"(e.id,e.fullName,e.balance)"+" from "+BankAccount.class.getName()+" e ";
+		//Select new com.ayyappa.demo.model.BankAccountInfo(e.id,e.fullName,e.balance) from com.ayyappa.demo.entity.BankAccount e 
+		//String sql="select new "+MailEntityModel.class.getName()+"(e.mail)"+" from "+MailEntity.class.getName()+" e ";
+		String sql="select new com.ayyappa.demo.model.MailModel(m.mail) from com.ayyappa.demo.mailentity.MailEntity m";
+		System.out.println(sql);
+		Session session=this.sessionFactory.getCurrentSession();
+		Query<MailModel> query=session.createQuery(sql, MailModel.class);
+		System.out.println(query.getResultList());
+		return query.getResultList();
+	}
+	@SuppressWarnings("null")
+	public void saveMail(String mail) {
+		System.out.println("int save mails function.........");
+		
+		Session session=this.sessionFactory.getCurrentSession();
+		MailEntity mailEntity = new MailEntity(Statement.RETURN_GENERATED_KEYS,mail);
+		session.save(mailEntity);
+		System.out.println("save object");
+	}
+	public void run(String args) {
+		sendMails();
+	}
+	public void sendMails() {
+		List<MailModel> list=getMails();
+		list.forEach((temp)->{
+			System.out.println(temp.getMail());
+			mailer.run(temp.getMail());
+		});
+		
+	}
+
+	public void newMail(String mail) {
+		saveMail(mail);
+	}
+}

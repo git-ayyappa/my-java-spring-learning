@@ -1,0 +1,31 @@
+package com.ayyappa.springDemo.mvc;
+
+public class Student {
+	private String firstName;
+	private String lasName;
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLasName() {
+		return lasName;
+	}
+	public void setLasName(String lasName) {
+		this.lasName = lasName;
+	}
+	public Student(String firstName, String lasName) {
+		super();
+		this.firstName = firstName;
+		this.lasName = lasName;
+	}
+	public Student() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return "Student [firstName=" + firstName + ", lasName=" + lasName + "]";
+	}
+	
+}

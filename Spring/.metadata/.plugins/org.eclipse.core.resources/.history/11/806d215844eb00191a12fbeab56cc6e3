@@ -1,0 +1,75 @@
+package com.ayyappa.springDemo.mvc;
+
+import java.util.LinkedHashMap;
+
+public class Student {
+	private String firstName;
+	private String lastName;
+	private String country;
+	private LinkedHashMap<String, String> countryCode;
+	private String favouriteLanguage;
+	public Student(String firstName, String lastName, String country, LinkedHashMap<String, String> countryCode,
+			String favouriteLanguage) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.country = country;
+		this.countryCode = countryCode;
+		this.favouriteLanguage = favouriteLanguage;
+	}
+	public String getFavouriteLanguage() {
+		return favouriteLanguage;
+	}
+	public void setFavouriteLanguage(String favouriteLanguage) {
+		this.favouriteLanguage = favouriteLanguage;
+	}
+	public Student(String firstName, String lastName, String country) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.country = country;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public Student(String firstName, String lasName) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lasName;
+	}
+	public Student() {
+		super();
+		countryCode=new LinkedHashMap<>();
+		countryCode.put("BR","Brazil");
+		countryCode.put("MY","Malaysia");
+		countryCode.put("WL","Wales");
+		countryCode.put("IN","India");
+		countryCode.put("US","America");
+	}
+	public LinkedHashMap<String, String> getCountryCode() {
+		return countryCode;
+	}
+	public void setCountryCode(LinkedHashMap<String, String> countryCode) {
+		this.countryCode = countryCode;
+	}
+	@Override
+	public String toString() {
+		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", country=" + country + "]";
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+}

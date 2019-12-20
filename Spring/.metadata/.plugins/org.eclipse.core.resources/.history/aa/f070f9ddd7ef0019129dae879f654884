@@ -1,0 +1,5 @@
+package com.ayyappa.demo.questionentity;
+
+public class QuestionEntity {
+
+}

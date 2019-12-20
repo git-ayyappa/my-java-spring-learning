@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="springHibernate07Planning"/>
+<aop-project name="demo"/>
+<aop-project name="Postgres"/>
+<aop-project name="AmigosAPI"/>
+<aop-project name="SpringMVCPostgresql"/>
+<aop-project name="SpringWebApp"/>
+<aop-project name="DataRestAPI"/>
+<aop-project name="AlienAPI"/>
+<aop-project name="SpringMVCDatabase"/>
+<aop-project name="daily_blinkz"/>
+</aop-reference-model>

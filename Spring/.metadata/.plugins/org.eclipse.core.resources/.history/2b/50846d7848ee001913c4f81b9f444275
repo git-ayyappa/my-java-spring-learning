@@ -1,0 +1,5 @@
+package com.ayyappa.demo.service;
+
+public class MailService {
+
+}

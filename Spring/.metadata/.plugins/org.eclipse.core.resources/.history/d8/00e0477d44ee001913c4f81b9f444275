@@ -1,0 +1,10 @@
+package com.ayyappa.demo.mailentity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="dailyblinkz")
+public class MailEntity {
+
+}
